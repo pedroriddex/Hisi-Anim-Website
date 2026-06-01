@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://hisi-anim.vercel.app",
   ),
-  title: "Hísi Anim",
+  title: "Hísi Anim — Elegant scroll-driven animations for WordPress",
   description:
     "Lightweight scroll-driven entrance animations for WordPress, with native controls in Elementor and Bricks. No dependencies, no jQuery.",
   openGraph: {
