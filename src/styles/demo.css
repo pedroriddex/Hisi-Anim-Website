@@ -1,0 +1,98 @@
+/**
+ * Demo-only styles for the live class gallery.
+ *
+ * The site loads the plugin's REAL stylesheet (hisi-anim.css) so the class
+ * names behave authentically. This file layers gallery-friendly playback on
+ * top: ClassGallery.tsx replays each card once when it scrolls into view, and
+ * on demand via the Replay button / click.
+ *
+ * Key principle: every swatch has a VISIBLE resting state. The plugin's real
+ * CSS leaves blur effects at opacity:0 and clip-path effects fully clipped
+ * until JS kicks in — fine on a real page, but in a reference gallery a card
+ * that never crosses the observer threshold would stay invisible. So here the
+ * resting state is the FINAL (revealed) state, and the entrance is replayed as
+ * an animation on top of it.
+ *
+ * Import order matters: demo.css is imported AFTER hisi-anim.css so these
+ * same-specificity rules win.
+ */
+
+/* The visual swatch every example animates. */
+.demo-swatch {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 132px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #161616 100%);
+  color: #c9c9c9;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ---- Entrance effects ---------------------------------------------------- */
+/* Resting state: fully visible (override the plugin's scroll-timeline setup,
+   which would otherwise leave these at opacity:0 / blurred). */
+.demo-swatch.ha--scrollBlur,
+.demo-swatch.ha--scrollBlurLeft,
+.demo-swatch.ha--scrollBlurRight,
+.demo-swatch.ha--scrollScale,
+.demo-swatch.ha--scrollZoom {
+  animation: none;
+  animation-timeline: auto;
+  opacity: 1;
+  filter: none;
+  transform: none;
+  background-size: 100% 100%;
+}
+
+/* Replay the keyframe effects as time-based animations on demand. `both`
+   keeps the final (visible) frame, so the resting state is never hidden. */
+.demo-swatch.ha--scrollBlur.ha--play {
+  animation: blurInOut 2.4s ease both;
+}
+.demo-swatch.ha--scrollBlurRight.ha--play {
+  animation: blurInOutRight 2.4s ease both;
+}
+.demo-swatch.ha--scrollBlurLeft.ha--play {
+  animation: blurInOutLeft 2.4s ease both;
+}
+.demo-swatch.ha--scrollScale.ha--play {
+  animation: scale 1.6s ease both;
+}
+.demo-swatch.ha--scrollZoom.ha--play {
+  animation: zoom 2s ease both;
+}
+
+/* ---- Clip-path reveals --------------------------------------------------- */
+/* Resting state: fully revealed (open), so a card is never blank. The reveal
+   is shown by briefly closing then opening via the .ha--replay class. */
+.demo-swatch.ha--clipPathRight,
+.demo-swatch.ha--clipPathLeft,
+.demo-swatch.ha--clipPathTop,
+.demo-swatch.ha--clipPathBottom {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s ease;
+}
+
+/* While replaying, jump to the closed state with no transition, then the
+   class is removed on the next frame to animate back open. */
+.demo-swatch.ha--clipPathRight.ha--replay {
+  clip-path: inset(0 100% 0 0);
+  transition: none;
+}
+.demo-swatch.ha--clipPathLeft.ha--replay {
+  clip-path: inset(0 0 0 100%);
+  transition: none;
+}
+.demo-swatch.ha--clipPathTop.ha--replay {
+  clip-path: inset(100% 0 0 0);
+  transition: none;
+}
+.demo-swatch.ha--clipPathBottom.ha--replay {
+  clip-path: inset(0 0 100% 0);
+  transition: none;
+}

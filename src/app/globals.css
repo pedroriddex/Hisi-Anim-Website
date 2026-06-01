@@ -1,26 +1,47 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #0a0a0a;
+  color: #ededed;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Inter typographic refinements: contextual alternates, tabular figures
+     where it helps, and disciplined kerning for an elegant feel. */
+  font-feature-settings: "cv11", "ss01", "calt", "kern";
+  letter-spacing: -0.011em;
+}
+
+/* Display headings: tighter tracking and optical balance. */
+.font-display {
+  letter-spacing: -0.035em;
+  font-feature-settings: "ss01", "cv11", "kern";
+}
+
+/* Subtle radial glow behind the hero. */
+.hero-glow {
+  background: radial-gradient(
+    62% 48% at 50% -8%,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+/* Hairline gradient divider — thinner and more refined than a solid rule. */
+.hairline {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent
+  );
 }
