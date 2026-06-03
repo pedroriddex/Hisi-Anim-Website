@@ -96,3 +96,62 @@
   clip-path: inset(0 0 100% 0);
   transition: none;
 }
+
+/* ===========================================================================
+   New effects (v1.1) — demo playback.
+   Entrance effects (scroll-linked) and the reveal animations are shown with
+   demo keyframes that ALWAYS end visible, so cards never rest hidden.
+   =========================================================================== */
+
+/* Resting state: fully visible (neutralize the plugin's hidden base states). */
+.demo-swatch.ha--scrollParallax,
+.demo-swatch.ha--scrollRotate,
+.demo-swatch.ha--scrollDim,
+.demo-swatch.ha--scrollSkew,
+.demo-swatch.ha--scrollDriftX,
+.demo-swatch.ha--blurUp,
+.demo-swatch.ha--scaleIn,
+.demo-swatch.ha--tiltIn,
+.demo-swatch.ha--drift {
+  animation: none;
+  animation-timeline: auto;
+  opacity: 1;
+  filter: none;
+  transform: none;
+  -webkit-clip-path: none;
+  clip-path: none;
+  transition: none;
+}
+
+/* Replay on demand (.ha--play) with demo keyframes that end visible. */
+.demo-swatch.ha--scrollParallax.ha--play { animation: demoRise 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--scrollRotate.ha--play   { animation: demoRotate 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--scrollDim.ha--play      { animation: demoDim 1.4s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--scrollSkew.ha--play     { animation: demoSkew 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--scrollDriftX.ha--play   { animation: demoDriftX 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--blurUp.ha--play   { animation: demoBlurUp 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--scaleIn.ha--play  { animation: demoScaleIn 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--tiltIn.ha--play   { animation: demoTiltIn 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.demo-swatch.ha--drift.ha--play    { animation: demoDrift 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+
+@keyframes demoRise   { from { opacity: 0; transform: translateY(46px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes demoRotate { from { opacity: 0; transform: perspective(900px) rotateX(16deg); } to { opacity: 1; transform: perspective(900px) rotateX(0deg); } }
+@keyframes demoDim    { from { opacity: 0; filter: brightness(0.4); } to { opacity: 1; filter: brightness(1); } }
+@keyframes demoSkew   { from { opacity: 0; transform: skewY(5deg) translateY(18px); } to { opacity: 1; transform: skewY(0deg) translateY(0); } }
+@keyframes demoDriftX { from { opacity: 0; transform: translateX(-46px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes demoBlurUp { from { opacity: 0; transform: translateY(24px); filter: blur(12px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes demoScaleIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes demoTiltIn { from { opacity: 0; transform: perspective(800px) rotateX(16deg) translateY(20px); } to { opacity: 1; transform: perspective(800px) rotateX(0deg) translateY(0); } }
+@keyframes demoDrift  { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: translateX(0); } }
+
+/* Line reveal — clip-path based (resting open; .ha--replay closes then opens). */
+.demo-swatch.ha--lineReveal {
+  -webkit-clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s ease;
+}
+.demo-swatch.ha--lineReveal.ha--replay {
+  -webkit-clip-path: inset(0 0 100% 0);
+  clip-path: inset(0 0 100% 0);
+  transition: none;
+}

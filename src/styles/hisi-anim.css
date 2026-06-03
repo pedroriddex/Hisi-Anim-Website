@@ -150,3 +150,155 @@
     border-radius: 0;
   }
 }
+
+/* =====================================================================
+   v1.0.1 — Nuevos efectos
+   Entrada (trigger .ha--animated): estado base + estado final. La duración
+   la fija el JS (data-anim-time, 1s por defecto) vía transition-duration;
+   aquí solo definimos la curva premium (ease-out expo).
+   Scroll-linked (animation-timeline: view()): igual que ha--scrollBlur.
+   ===================================================================== */
+
+/* ---- Entrada: Blur up ---- */
+.hisi-anim.ha--blurUp {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(12px);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hisi-anim.ha--blurUp.ha--animated {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* ---- Entrada: Scale in ---- */
+.hisi-anim.ha--scaleIn {
+  opacity: 0;
+  transform: scale(0.96);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hisi-anim.ha--scaleIn.ha--animated {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---- Entrada: Tilt in (rotateX 3D sutil) ---- */
+.hisi-anim.ha--tiltIn {
+  opacity: 0;
+  transform: perspective(1200px) rotateX(8deg) translateY(22px);
+  transform-origin: center top;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hisi-anim.ha--tiltIn.ha--animated {
+  opacity: 1;
+  transform: perspective(1200px) rotateX(0deg) translateY(0);
+}
+
+/* ---- Entrada: Drift (desplazamiento corto + fade) ---- */
+.hisi-anim.ha--drift {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hisi-anim.ha--drift.ha--animated {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---- Entrada: Line reveal (máscara clip-path de abajo a arriba) ---- */
+.hisi-anim.ha--lineReveal {
+  opacity: 0;
+  -webkit-clip-path: inset(0 0 100% 0);
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(14px);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hisi-anim.ha--lineReveal.ha--animated {
+  opacity: 1;
+  -webkit-clip-path: inset(0 0 0% 0);
+  clip-path: inset(0 0 0% 0);
+  transform: translateY(0);
+}
+
+/* ---- Scroll-linked: Parallax (deriva vertical) ---- */
+.hisi-anim.ha--scrollParallax {
+  animation: haParallax linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+@keyframes haParallax {
+  from { transform: translateY(70px); }
+  to   { transform: translateY(-70px); }
+}
+
+/* ---- Scroll-linked: Rotate 3D (se endereza en el centro) ---- */
+.hisi-anim.ha--scrollRotate {
+  animation: haRotate linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+  transform-origin: center center;
+}
+@keyframes haRotate {
+  from { transform: perspective(1100px) rotateX(14deg);  opacity: 0.45; }
+  50%  { transform: perspective(1100px) rotateX(0deg);   opacity: 1; }
+  to   { transform: perspective(1100px) rotateX(-14deg); opacity: 0.45; }
+}
+
+/* ---- Scroll-linked: Dim to light (brillo/contraste al centro) ---- */
+.hisi-anim.ha--scrollDim {
+  animation: haDim linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+@keyframes haDim {
+  from { filter: brightness(0.4) contrast(0.9); }
+  50%  { filter: brightness(1) contrast(1); }
+  to   { filter: brightness(0.4) contrast(0.9); }
+}
+
+/* ---- Scroll-linked: Skew settle (cizalla que se asienta) ---- */
+.hisi-anim.ha--scrollSkew {
+  animation: haSkew linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+@keyframes haSkew {
+  from { transform: skewY(4deg) translateY(24px);   opacity: 0.5; }
+  50%  { transform: skewY(0deg) translateY(0);      opacity: 1; }
+  to   { transform: skewY(-4deg) translateY(-24px); opacity: 0.5; }
+}
+
+/* ---- Scroll-linked: Drift X (deriva horizontal / parallax lateral) ---- */
+.hisi-anim.ha--scrollDriftX {
+  animation: haDriftX linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+@keyframes haDriftX {
+  from { transform: translateX(-60px); opacity: 0.55; }
+  50%  { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(60px);  opacity: 0.55; }
+}
+
+/* ---- Respeta a quien reduce el movimiento ---- */
+@media (prefers-reduced-motion: reduce) {
+  .hisi-anim.ha--blurUp,
+  .hisi-anim.ha--scaleIn,
+  .hisi-anim.ha--tiltIn,
+  .hisi-anim.ha--drift,
+  .hisi-anim.ha--lineReveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    -webkit-clip-path: none !important;
+    clip-path: none !important;
+  }
+  .hisi-anim.ha--scrollParallax,
+  .hisi-anim.ha--scrollRotate,
+  .hisi-anim.ha--scrollDim,
+  .hisi-anim.ha--scrollSkew,
+  .hisi-anim.ha--scrollDriftX {
+    animation: none !important;
+  }
+}
